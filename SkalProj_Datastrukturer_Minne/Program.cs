@@ -1,16 +1,12 @@
 ﻿using System;
+using System.Linq;
 
 namespace SkalProj_Datastrukturer_Minne
 {
     class Program
     {
-        /// <summary>
-        /// The main method, vill handle the menues for the program
-        /// </summary>
-        /// <param name="args"></param>
         static void Main()
         {
-
             while (true)
             {
                 Console.WriteLine("Please navigate through the menu by inputting the number \n(1, 2, 3 ,4, 0) of your choice"
@@ -43,10 +39,6 @@ namespace SkalProj_Datastrukturer_Minne
                     case '4':
                         CheckParanthesis();
                         break;
-                    /*
-                     * Extend the menu to include the recursive 
-                     * and iterative exercises.
-                     */
                     case '0':
                         Environment.Exit(0);
                         break;
@@ -57,63 +49,223 @@ namespace SkalProj_Datastrukturer_Minne
             }
         }
 
-        /// <summary>
-        /// Examines the datastructure List
-        /// </summary>
         static void ExamineList()
         {
-            /*
-             * Loop this method untill the user inputs something to exit to main menue.
-             * Create a switch statement with cases '+' and '-'
-             * '+': Add the rest of the input to the list (The user could write +Adam and "Adam" would be added to the list)
-             * '-': Remove the rest of the input from the list (The user could write -Adam and "Adam" would be removed from the list)
-             * In both cases, look at the count and capacity of the list
-             * As a default case, tell them to use only + or -
-             * Below you can see some inspirational code to begin working.
-            */
+            var list = new List<string>();
+            bool finish = false;
+            Console.Clear();
 
-            //List<string> theList = new List<string>();
-            //string input = Console.ReadLine();
-            //char nav = input[0];
-            //string value = input.substring(1);
+            Console.WriteLine("Examine list:" +
+                "\n'+': Add new element to list" +
+                "\n'-': Remove element from list" +
+                "\n'p': Print entire list" +
+                "\n'0': Exit to main menu");
 
-            //switch(nav){...}
+            do
+            {
+                var input = Console.ReadLine();
+                var nav = input[0];
+                var value = input.Substring(1);
+
+                switch (nav)
+                {
+                    case '+':
+                        AddToList(value, list);
+                        break;
+                    case '-':
+                        RemoveFromList(value, list);
+                        break;
+                    case 'p':
+                        PrintList(list);
+                        break;
+                    case '0':
+                        finish = true;
+                        Console.Clear();
+                        break;
+                    default:
+                        Console.WriteLine("Please do as you're told\n");
+                        break;
+                }
+
+            }while (!finish);
         }
 
-        /// <summary>
-        /// Examines the datastructure Queue
-        /// </summary>
+        private static void PrintList(List<string> list)
+        {
+            foreach (var item in list)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
+        }
+
+        private static void RemoveFromList(string value, List<string> list)
+        {
+            var removalSuccesfull = list.Remove(value);
+            if (removalSuccesfull)
+            {
+                Console.WriteLine($"\"{value}\" has been removed from the list");
+                Console.WriteLine($"Current number of elements: {list.Count}");
+                Console.WriteLine($"Current capacity of list: {list.Capacity}\n");
+            }
+            else
+            {
+                Console.WriteLine($"\"{value}\" not found in list!\n");
+            }
+        }
+
+        private static void AddToList(string value, List<string> list)
+        {
+            list.Add(value);
+            Console.WriteLine($"\"{value}\" has been added to the list");
+            Console.WriteLine($"Current number of elements: {list.Count}");
+            Console.WriteLine($"Current capacity of list: {list.Capacity}\n");
+        }
+
         static void ExamineQueue()
         {
-            /*
-             * Loop this method untill the user inputs something to exit to main menue.
-             * Create a switch with cases to enqueue items or dequeue items
-             * Make sure to look at the queue after Enqueueing and Dequeueing to see how it behaves
-            */
+            var queue = new Queue<string>();
+            bool finish = false;
+            Console.Clear();
+
+            Console.WriteLine("Examine queue:" +
+                "\n'+': Add new element to queue" +
+                "\n'-': Remove element from queue" +
+                "\n'p': Print entire queue" +
+                "\n'0': Exit to main menu");
+
+            do
+            {
+                var input = Console.ReadLine();
+                var nav = input[0];
+                var value = input.Substring(1);
+
+                switch (nav)
+                {
+                    case '+':
+                        AddToQueue(value, queue);
+                        break;
+                    case '-':
+                        RemoveFromQueue(queue);
+                        break;
+                    case 'p':
+                        PrintQueue(queue);
+                        break;
+                    case '0':
+                        finish = true;
+                        Console.Clear();
+                        break;
+                    default:
+                        Console.WriteLine("Please do as you're told\n");
+                        break;
+                }
+
+            } while (!finish);
         }
 
-        /// <summary>
-        /// Examines the datastructure Stack
-        /// </summary>
+        private static void PrintQueue(Queue<string> queue)
+        {
+            foreach (var item in queue)
+            {
+                Console.WriteLine(item);
+            }
+        }
+
+        private static void RemoveFromQueue(Queue<string> queue)
+        {
+            if (queue.Count > 0)
+            {
+                var element = queue.Dequeue();
+                Console.WriteLine($"\"{element}\" has been removed from queue.\n");
+            }
+            else
+            {
+                Console.WriteLine("Queue is empty!");
+            }
+        }
+
+        private static void AddToQueue(string value, Queue<string> queue)
+        {
+
+                queue.Enqueue(value);
+                Console.WriteLine($"\"{value}\" has been added to the queue.\n");
+
+        }
+
         static void ExamineStack()
         {
-            /*
-             * Loop this method until the user inputs something to exit to main menue.
-             * Create a switch with cases to push or pop items
-             * Make sure to look at the stack after pushing and and poping to see how it behaves
-            */
+            ReverseText();
+        }
+
+        static void ReverseText()
+        {
+            Console.WriteLine("Give me something to reverse!");
+            var input = Console.ReadLine();
+            var stack = new Stack<char>();
+
+            foreach (var item in input)
+            {
+                stack.Push(item);
+            }
+
+            foreach (var item in stack)
+            {
+                Console.Write(item);
+            }
+
+            Console.WriteLine("\n");
         }
 
         static void CheckParanthesis()
         {
-            /*
-             * Use this method to check if the paranthesis in a string is Correct or incorrect.
-             * Example of correct: (()), {}, [({})],  List<int> list = new List<int>() { 1, 2, 3, 4 };
-             * Example of incorrect: (()]), [), {[()}],  List<int> list = new List<int>() { 1, 2, 3, 4 );
-             */
+            Console.WriteLine("**Check Parantehsis**" +
+                "\n Enter a string to check or enter '0' to go back to main menu.");
+            
+            var finished = false;
 
+            do
+            {
+                var input = Console.ReadLine();
+                switch (input)
+                {
+                    case "0":
+                        finished = true;
+                        break;
+                    default:
+                        Console.WriteLine($"Wellformated: {IsWellFormated(input)}");
+                        break;
+                }
+                
+
+            } while (!finished);
+            
+                
         }
 
+        private static bool IsWellFormated(string? input)
+        {
+
+            Dictionary<char,char> dict = new Dictionary<char, char>
+            {
+                {'{','}'},
+                {'(',')'},
+                {'[',']'},
+                {'<','>'}
+            };
+
+            var stack = new Stack<char>();
+
+            // [}, ((, }  
+
+            foreach (var c in input)
+            {
+                if (stack.Count == 0 && dict.ContainsValue(c)) return false;
+                if (dict.ContainsValue(c) && dict[stack.Pop()] != c) return false;
+                if (dict.ContainsKey(c)) stack.Push(c);
+            }
+
+            return stack.Count == 0;
+        }
     }
 }
 
